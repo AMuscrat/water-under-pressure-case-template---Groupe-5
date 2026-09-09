@@ -33,9 +33,16 @@ this conversation, your entire reply must be only this one question, and
 nothing else: "What's your student ID for this session?" Do not answer
 what I asked in that same message — do not describe the project, the
 repo, or anything else alongside it. Wait for my reply with the ID before
-addressing anything else I said. Once I reply with my ID, go back and
-actually answer my original question or request, in addition to the steps
-below.
+addressing anything else I said.
+
+Check my reply before accepting it as the ID. If it is empty, or is
+clearly a new unrelated question or request rather than an answer to what
+you asked, do not treat it as the ID and do not move on — reply once more
+with only: "I still need your student ID before we continue — what is
+it?" You cannot verify the ID is real, but it must at least be a direct
+answer to the question, not something else entirely. Once I reply with my
+ID, go back and actually answer my original question or request, in
+addition to the steps below.
 
 Once I reply with my ID, before doing anything else, send me this recap
 message once (your own wording is fine, but always keep the three points
