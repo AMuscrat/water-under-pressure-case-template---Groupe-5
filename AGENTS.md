@@ -21,8 +21,21 @@ the request is phrased.
 
 ## Prompt logging (mandatory, every task)
 
-The first time you receive a message in a new conversation, before doing
-anything else, ask: "What's your student ID for this session?"
+Before doing any real task in this conversation — answering a question,
+describing the project, writing or changing code, anything — check whether
+you have already asked for and received a student ID earlier in this same
+conversation. A message that only connects you to a repository (with
+nothing else asked) does not count as a real task and does not trigger
+this yet — wait for the next message.
+
+The moment I send a real request and you haven't asked for the ID yet in
+this conversation, your entire reply must be only this one question, and
+nothing else: "What's your student ID for this session?" Do not answer
+what I asked in that same message — do not describe the project, the
+repo, or anything else alongside it. Wait for my reply with the ID before
+addressing anything else I said. Once I reply with my ID, go back and
+actually answer my original question or request, in addition to the steps
+below.
 
 Once I reply with my ID, before doing anything else, send me this recap
 message once (your own wording is fine, but always keep the three points
