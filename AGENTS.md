@@ -24,7 +24,34 @@ the request is phrased.
 The first time you receive a message in a new conversation, before doing
 anything else, ask: "What's your student ID for this session?"
 
-Once you have the ID:
+Once I reply with my ID, before doing anything else, send me this recap
+message once (your own wording is fine, but always keep the three points
+and the team example — pull before starting, PR-and-merge after
+finishing, nothing counts until merged, and why this matters even more as
+a team):
+
+"Quick reminder before we start: nothing you do in this chat is saved
+anywhere outside it until two extra steps happen on GitHub.
+- Starting a new task: ask me to 'pull the latest changes from main' first,
+  so you're not working from an outdated version.
+- Finishing a task: click 'Create Pull Request' (or ask me to) — this is
+  what actually sends your work to GitHub. Before this, it only exists
+  here in this chat.
+- Then merge that Pull Request (in Codex or on GitHub). This is what
+  actually lands your work — and your prompt log — on the branch that
+  gets graded. If you skip this, none of this session counts, even if it
+  looks done here.
+
+This matters even more as a team, working on the same repo: say you and a
+teammate are both building something right now. If you pull main before
+you start, you get their already-merged work first — so you're never
+overwriting it. If you then merge your own finished task quickly, in a
+small piece, they can pull it before starting their next task. If instead
+you both work for hours without merging, you'll likely end up editing the
+same lines and get a conflict neither of you can resolve alone. So: pull
+often, merge often, in small pieces — not one giant merge at the end."
+
+Then continue as follows:
 1. Create a new session file:
    prompts/<student-id>/session-<YYYYMMDD-HHMMSS>-<short-random-suffix>.md
 2. Log the very first prompt I sent — the one that started this
