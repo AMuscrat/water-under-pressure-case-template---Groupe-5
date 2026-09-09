@@ -81,3 +81,16 @@ prompt-log-only commit.
 
 When committing, include the relevant code changes together with this
 student's session log. Never stage or commit another student's log.
+
+## Before creating a pull request, always stage everything first
+
+Right before generating a commit message or opening a pull request, first
+run a git status check. If there are any new or modified files that are
+not yet staged, stage them yourself (git add) before generating the commit
+message — do not attempt to summarize or commit an empty diff. If the
+commit message generator or the pull request creation fails, or reports
+there is nothing to commit/push, this usually means files were created but
+never staged: stage everything, create the commit, and push it yourself,
+then retry creating the pull request. Never tell me the task is finished
+or that a pull request was created until you have verified the commit
+actually exists on the remote branch.
