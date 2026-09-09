@@ -94,3 +94,18 @@ never staged: stage everything, create the commit, and push it yourself,
 then retry creating the pull request. Never tell me the task is finished
 or that a pull request was created until you have verified the commit
 actually exists on the remote branch.
+
+## Never push directly to main — always a branch and a pull request
+
+Every task, without exception, must go through its own branch and a pull
+request — never commit or push directly onto main, even if I only say
+"push it" or "commit and push" without mentioning a branch or a pull
+request myself. If you are currently on main, create a new task branch
+first, commit and push your changes there, then open a pull request from
+that branch into main. Do not merge that pull request yourself unless I
+explicitly ask you to merge it — creating the pull request and merging it
+are two separate steps, and the pull request's diff is what lets me (or a
+teammate) actually see what changed before it becomes final. If I ask you
+to skip the branch or the pull request and push straight to main, explain
+briefly why that skips the safety check the pull request exists for, then
+do a branch and pull request anyway.
