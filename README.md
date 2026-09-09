@@ -42,6 +42,7 @@ These questions aren't here to slow you down — they're part of what's being ev
 - A prototype that works, even partially, using at least one real public data source
 - Your prompt log (`prompts/<your-id>/session-*.md`) committed and up to date
 - A short paragraph below, written in business language (not technical), explaining what you built, for whom, and why
+- A live URL (Vercel or similar) if you deployed it — not required to still get credit, but expected if you did
 
 ## Our Approach
 
