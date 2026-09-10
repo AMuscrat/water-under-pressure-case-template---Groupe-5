@@ -31,3 +31,11 @@ continue
 ` 
 
 Result: Continued checking the pending private preview deployment; application and initial prompt log are already on draft PR #2.
+
+## Entry 4 — 2026-09-10
+
+```text
+explain to me the different folders and how my collegue can run the application
+```
+
+Result: Explained the repository folders and how a colleague can check out the unmerged feature branch and serve the static dist folder with Python; data-processing dependencies are only needed to rebuild the datasets.
