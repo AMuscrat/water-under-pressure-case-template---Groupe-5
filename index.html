@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AquaCrop Decision Lab - a simple crop-water scenario dashboard for agricultural cooperatives in Southern Europe." />
+  <title>AquaCrop Decision Lab</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark" aria-hidden="true">A</div>
+      <div>
+        <div class="brand-name">AquaCrop</div>
+        <div class="brand-subtitle">Decision Lab</div>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span class="status-dot"></span>
+      Mock scenario workspace
+      <span class="student-tag">e262972</span>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <nav>
+        <a class="nav-item active" href="#overview"><span>01</span>Overview</a>
+        <a class="nav-item" href="#farm-inputs"><span>02</span>Farm Inputs</a>
+        <a class="nav-item" href="#crop-scenarios"><span>03</span>Crop Scenarios</a>
+        <a class="nav-item" href="#recommendations"><span>04</span>Recommendations</a>
+        <a class="nav-item" href="#methodology"><span>05</span>Methodology</a>
+      </nav>
+      <div class="sidebar-note">
+        <span class="eyebrow">Designed for</span>
+        Southern European cooperatives
+        <small>Compare crop-water trade-offs before the season starts.</small>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section id="overview" class="hero section-block">
+        <div>
+          <span class="eyebrow">COOPERATIVE PLANNING WORKSPACE</span>
+          <h1>Make every cubic metre count.</h1>
+          <p>Test how field conditions and crop choices affect irrigation demand, expected yield, and water efficiency.</p>
+        </div>
+        <div class="hero-badge">
+          <span>Current lens</span>
+          <strong>Summer water pressure</strong>
+          <small>Illustrative data · not an official forecast</small>
+        </div>
+      </section>
+
+      <section class="kpi-grid section-block" aria-label="Key indicators">
+        <article class="kpi-card">
+          <span class="kpi-label">Available water</span>
+          <strong id="kpi-water">520,000</strong>
+          <span class="kpi-unit">m³ / season</span>
+          <div class="sparkline"><i style="height:40%"></i><i style="height:65%"></i><i style="height:55%"></i><i style="height:72%"></i><i style="height:61%"></i><i style="height:82%"></i><i style="height:69%"></i></div>
+        </article>
+        <article class="kpi-card">
+          <span class="kpi-label">Projected demand</span>
+          <strong id="kpi-demand">481,000</strong>
+          <span class="kpi-unit">m³ / season</span>
+          <span id="kpi-buffer" class="chip positive">+8.1% buffer</span>
+        </article>
+        <article class="kpi-card">
+          <span class="kpi-label">Water efficiency</span>
+          <strong id="kpi-efficiency">79%</strong>
+          <span class="kpi-unit">scenario score</span>
+          <div class="progress"><span id="efficiency-bar" style="width:79%"></span></div>
+        </article>
+        <article class="kpi-card">
+          <span class="kpi-label">Recommended mix</span>
+          <strong id="kpi-mix">Olive-led</strong>
+          <span class="kpi-unit">lowest pressure</span>
+          <span id="kpi-alert" class="chip neutral">Watch heat weeks</span>
+        </article>
+      </section>
+
+      <section id="farm-inputs" class="section-block two-column">
+        <div class="panel">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">02 · FARM INPUTS</span>
+              <h2>Set your cooperative assumptions</h2>
+            </div>
+            <span class="panel-pill">Mock inputs</span>
+          </div>
+          <div class="input-stack">
+            <label class="range-field">
+              <div><span>Available irrigation water</span><strong id="water-value">520,000 m³</strong></div>
+              <input id="water" type="range" min="300000" max="700000" step="10000" value="520000" />
+            </label>
+            <label class="range-field">
+              <div><span>Farm area</span><strong id="area-value">420 ha</strong></div>
+              <input id="area" type="range" min="200" max="650" step="10" value="420" />
+            </label>
+            <label class="range-field">
+              <div><span>Heat / drought pressure</span><strong id="stress-value">Moderate</strong></div>
+              <input id="stress" type="range" min="1" max="5" step="1" value="3" />
+            </label>
+          </div>
+          <div class="input-footer"><span>Baseline location</span><strong>Murcia · Spain</strong><span>Season</span><strong>May–September</strong></div>
+        </div>
+
+        <div class="panel callout-panel">
+          <span class="eyebrow">Decision question</span>
+          <h2>Which crop mix keeps the cooperative inside its water budget?</h2>
+          <p>The model below is intentionally transparent: changing one input updates the scenario cards and the recommendation score.</p>
+          <div class="decision-flow"><span>Inputs</span><b>→</b><span>Crop demand</span><b>→</b><span>Recommendation</span></div>
+        </div>
+      </section>
+
+      <section id="crop-scenarios" class="section-block">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">03 · CROP SCENARIOS</span>
+            <h2>Compare the season before committing hectares</h2>
+          </div>
+          <select id="scenario-select" aria-label="Scenario focus">
+            <option value="balanced">Balanced cooperative</option>
+            <option value="water-first">Water first</option>
+            <option value="yield-first">Yield first</option>
+          </select>
+        </div>
+        <div class="scenario-grid" id="scenario-grid"></div>
+      </section>
+
+      <section id="recommendations" class="section-block two-column">
+        <div class="panel recommendation-panel">
+          <div class="section-heading compact">
+            <div><span class="eyebrow">04 · RECOMMENDATIONS</span><h2>Action for the cooperative board</h2></div>
+            <span id="recommendation-score" class="score-ring">82</span>
+          </div>
+          <div class="recommendation-main">
+            <div class="recommendation-icon" aria-hidden="true">✓</div>
+            <div>
+              <span class="recommendation-label">Preferred direction</span>
+              <h3 id="recommendation-title">Keep 55–60% of area in olive</h3>
+              <p id="recommendation-copy">Use olive as the anchor crop, keep a smaller citrus block, and reserve flexible area for lower-water summer crops.</p>
+            </div>
+          </div>
+          <div class="action-list">
+            <div><span>01</span><strong>Protect the buffer</strong><small>Target at least 7% unallocated water before peak heat.</small></div>
+            <div><span>02</span><strong>Prioritise high-value blocks</strong><small>Apply tighter irrigation scheduling to the most valuable hectares.</small></div>
+            <div><span>03</span><strong>Review after 4 weeks</strong><small>Update the scenario with observed demand and rainfall.</small></div>
+          </div>
+        </div>
+
+        <div class="panel chart-panel">
+          <div class="section-heading compact">
+            <div><span class="eyebrow">WATER BUDGET</span><h2>Seasonal demand vs. allocation</h2></div>
+            <span class="legend"><i></i>Allocation <i class="second"></i>Demand</span>
+          </div>
+          <div class="bar-chart" aria-label="Mock water budget chart">
+            <div class="bar-row"><span>Olive</span><div class="bar-track"><b style="width:53%"></b><i style="width:44%"></i></div><em>238k</em></div>
+            <div class="bar-row"><span>Citrus</span><div class="bar-track"><b style="width:31%"></b><i style="width:35%"></i></div><em>166k</em></div>
+            <div class="bar-row"><span>Veg.</span><div class="bar-track"><b style="width:19%"></b><i style="width:21%"></i></div><em>96k</em></div>
+            <div class="bar-row total"><span>Total</span><div class="bar-track"><b style="width:79%"></b><i id="chart-total-demand" style="width:73%"></i></div><em id="chart-total-label">481k</em></div>
+          </div>
+          <div class="chart-foot"><span>Lower bar length = lower pressure</span><strong id="chart-status">Within budget</strong></div>
+        </div>
+      </section>
+
+      <section id="methodology" class="section-block methodology-section">
+        <div class="methodology-header">
+          <div><span class="eyebrow">05 · METHODOLOGY</span><h2>What this prototype assumes</h2></div>
+          <span class="panel-pill">Explainable by design</span>
+        </div>
+        <div class="method-grid">
+          <article><span>01</span><h3>Mock irrigation demand</h3><p>Each crop gets a simplified seasonal water demand per hectare. These values are illustrative and are not a calibrated AquaCrop simulation.</p></article>
+          <article><span>02</span><h3>Stress multiplier</h3><p>Heat / drought pressure increases crop demand and reduces the available buffer to represent a more difficult summer.</p></article>
+          <article><span>03</span><h3>Decision score</h3><p>The recommendation balances water fit, a reserve buffer, and a preference for diversified, high-value crop coverage.</p></article>
+          <article><span>04</span><h3>Next data layer</h3><p>A future version can connect to public drought, rainfall, soil, crop, and water-allocation data and retain the same decision workflow.</p></article>
+        </div>
+        <div class="methodology-note"><strong>Important:</strong> numbers shown in this demo are mock data for a university prototype. They should not be used as agronomic or financial advice.</div>
+      </section>
+
+      <footer class="footer">AquaCrop Decision Lab · University project prototype · Student e262972</footer>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
