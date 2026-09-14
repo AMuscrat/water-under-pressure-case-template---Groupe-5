@@ -1,0 +1,1 @@
+The live Farm Inputs workflow calls Open-Meteo geocoding and forecast endpoints from the browser.
