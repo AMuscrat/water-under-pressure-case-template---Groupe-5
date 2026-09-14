@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="AquaCrop Decision Lab - a simple crop-water scenario dashboard for agricultural cooperatives in Southern Europe." />
   <title>AquaCrop Decision Lab</title>
+  <script>
+    if (sessionStorage.getItem('aquaCropSession') !== 'active') window.location.replace('login.html');
+  </script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -20,6 +23,7 @@
       <span class="status-dot"></span>
       Mock scenario workspace
       <span class="student-tag">e262972</span>
+      <button id="sign-out" class="sign-out" type="button">Sign out</button>
     </div>
   </header>
 

@@ -202,6 +202,10 @@ qs('#area').addEventListener('input', (e) => { state.area = Number(e.target.valu
 qs('#stress').addEventListener('input', (e) => { state.stress = Number(e.target.value); render(); });
 qs('#scenario-select').addEventListener('change', (e) => { state.focus = e.target.value; render(); });
 qs('#region-select').addEventListener('change', (e) => { applyRegion(e.target.value); });
+qs('#sign-out').addEventListener('click', () => {
+  sessionStorage.removeItem('aquaCropSession');
+  window.location.replace('login.html');
+});
 
 document.querySelectorAll('.nav-item').forEach((link) => link.addEventListener('click', () => {
   document.querySelectorAll('.nav-item').forEach((item) => item.classList.remove('active'));
