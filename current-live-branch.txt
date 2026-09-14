@@ -1,0 +1,1 @@
+Vittoria branch contains farm-inputs-live.html and data/crop-baselines-live.js for live Open-Meteo integration.
