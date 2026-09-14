@@ -33,31 +33,17 @@
         <span class="eyebrow">WELCOME BACK</span>
         <h2>Sign in to Decision Lab</h2>
         <p>Use the demo workspace credentials below.</p>
-
         <form id="login-form" class="login-form" novalidate>
           <label for="username">Username</label>
-          <div class="text-field">
-            <span aria-hidden="true">@</span>
-            <input id="username" name="username" type="text" autocomplete="username" placeholder="Enter username" required />
-          </div>
+          <div class="text-field"><span aria-hidden="true">@</span><input id="username" name="username" type="text" autocomplete="username" placeholder="Enter username" required /></div>
           <span id="username-error" class="field-error" aria-live="polite"></span>
-
           <label for="password">Password</label>
-          <div class="text-field">
-            <span aria-hidden="true">●</span>
-            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter password" required />
-            <button id="toggle-password" class="password-toggle" type="button" aria-label="Show password">Show</button>
-          </div>
+          <div class="text-field"><span aria-hidden="true">●</span><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter password" required /><button id="toggle-password" class="password-toggle" type="button" aria-label="Show password">Show</button></div>
           <span id="password-error" class="field-error" aria-live="polite"></span>
-
           <div id="login-error" class="login-error" role="alert" hidden>That username or password is incorrect. Try the demo credentials below.</div>
           <button class="login-button" type="submit"><span>Enter workspace</span><b aria-hidden="true">→</b></button>
         </form>
-
-        <div class="demo-credentials">
-          <div><span>Demo username</span><strong>planner</strong></div>
-          <div><span>Demo password</span><strong>water2026</strong></div>
-        </div>
+        <div class="demo-credentials"><div><span>Demo username</span><strong>planner</strong></div><div><span>Demo password</span><strong>water2026</strong></div></div>
         <p class="prototype-security-note"><strong>Prototype access only.</strong> This static demo does not provide production authentication or store personal credentials.</p>
       </div>
     </section>
