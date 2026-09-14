@@ -1,0 +1,1 @@
+Live APIs are enabled on Vittoria via Open-Meteo. The browser geocodes the entered region and fetches 7-day daily ET0, precipitation, and maximum temperature. Crop parameters remain local in data/crop-baselines-live.js.
