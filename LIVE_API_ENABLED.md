@@ -1,0 +1,1 @@
+Open-Meteo live API integration is enabled on branch Vittoria through farm-inputs-live.html. See docs/live-api.md and data/live-api-config.json.
