@@ -1,7 +1,9 @@
-window.SOUTH_EUROPE_REGIONS={
+window.SOUTH_EUROPE_COUNTRIES=['ESP','FRA','ITA','GRC','PRT'];
+const REGION_DATA={
   ESP:[['ES-AN','Andalusia',34,72,-21,48],['ES-MU','Region of Murcia',48,82,-27,72],['ES-VC','Valencia',41,66,-18,55],['ES-CM','Castilla-La Mancha',31,58,-17,43],['ES-AR','Aragon',29,54,-14,39]],
-  FRA:[['FR-11','Ile-de-France',12,28,-4,7],['FR-27','Bourgogne-Franche-Comte',13,31,-5,8],['FR-53','Brittany',8,22,2,5],['FR-75','Nouvelle-Aquitaine',16,36,-7,13],['FR-76','Occitanie',22,44,-9,18],['FR-84','Auvergne-Rhone-Alpes',16,36,-6,13],['FR-93','Provence-Alpes-Cote d’Azur',28,57,-15,21]],
-  ITA:[['IT-25','Lombardy',18,37,-5,15],['IT-32','Trentino-Alto Adige',12,28,-2,8],['IT-45','Emilia-Romagna',22,45,-9,24],['IT-52','Tuscany',19,42,-8,17],['IT-62','Lazio',21,44,-9,18],['IT-65','Campania',27,53,-12,26],['IT-75','Puglia',38,63,-16,42],['IT-78','Calabria',26,55,-14,29],['IT-82','Sicilia',35,70,-21,36],['IT-88','Sardegna',29,52,-12,31]],
-  GRC:[['GR-A','Anatoliki Makedonia & Thraki',22,46,-12,20],['GR-B','Kentriki Makedonia',27,57,-15,27],['GR-D','Ipeiros',14,31,-5,11],['GR-E','Thessalia',34,65,-18,31],['GR-F','Ionia Nisia',18,40,-8,13],['GR-G','Dytiki Ellada',24,46,-11,19],['GR-H','Sterea Ellada',26,52,-13,21],['GR-I','Attiki',31,62,-17,12],['GR-J','Peloponnisos',29,59,-16,25],['GR-K','Voreio Aigaio',23,53,-14,18],['GR-L','Notio Aigaio',32,66,-19,24],['GR-M','Kriti',36,73,-24,33]],
-  PRT:[['PT-11','Norte',10,29,-5,7],['PT-16','Centro',18,43,-10,12],['PT-17','Area Metropolitana de Lisboa',20,47,-12,8],['PT-18','Alentejo',30,61,-19,20],['PT-20','Algarve',37,69,-22,26]]
+  FRA:[['FR-76','Occitanie',22,44,-9,18],['FR-93','Provence-Alpes-Cote d’Azur',28,57,-15,21],['FR-84','Auvergne-Rhone-Alpes',16,36,-6,13]],
+  ITA:[['IT-75','Puglia',38,63,-16,42],['IT-88','Calabria',26,55,-14,29],['IT-82','Sicilia',35,70,-21,36],['IT-20','Sardegna',29,52,-12,31],['IT-65','Lazio',21,44,-9,18]],
+  GRC:[['GR-B','Central Macedonia',27,57,-15,27],['GR-F','Western Greece',24,46,-11,19],['GR-I','Attica',31,62,-17,12],['GR-K','Peloponnese',29,59,-16,25],['GR-M','Crete',36,73,-24,33]],
+  PRT:[['PT-AL','Algarve',37,69,-22,26],['PT-AL2','Alentejo',30,61,-19,20],['PT-C','Centro',18,43,-10,12],['PT-N','Norte',10,29,-5,7]]
 };
+window.REGION_DATA=REGION_DATA;
