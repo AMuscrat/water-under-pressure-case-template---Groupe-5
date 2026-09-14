@@ -7,6 +7,11 @@ const password = document.querySelector('#password');
 const togglePassword = document.querySelector('#toggle-password');
 const loginError = document.querySelector('#login-error');
 
+const uiRepairLink = document.createElement('link');
+uiRepairLink.rel = 'stylesheet';
+uiRepairLink.href = 'ui-fixes.css';
+document.head.appendChild(uiRepairLink);
+
 if (sessionStorage.getItem('aquaCropSession') === 'active') {
   window.location.replace('index.html');
 }

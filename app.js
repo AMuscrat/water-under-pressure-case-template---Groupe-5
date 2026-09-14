@@ -111,3 +111,8 @@ qs('#water').addEventListener('input',e=>{state.water=Number(e.target.value);ren
 document.querySelectorAll('.nav-item').forEach(link=>link.addEventListener('click',()=>{document.querySelectorAll('.nav-item').forEach(item=>item.classList.remove('active'));link.classList.add('active');}));
 
 applyRegion(state.region);
+
+const uiRepairLink=document.createElement('link');
+uiRepairLink.rel='stylesheet';
+uiRepairLink.href='ui-fixes.css';
+document.head.appendChild(uiRepairLink);
