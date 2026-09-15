@@ -1,0 +1,1 @@
+The regional map uses Eurostat NUTS 2 geography from the 2024 Nuts2json dataset. Vercel fetches and filters the official geometry during the build, so the browser only reads the generated same-origin `data/nuts2-southern-europe.json` asset. The page no longer calls Eurostat for map geometry at runtime.
