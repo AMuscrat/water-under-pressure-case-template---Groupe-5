@@ -1,0 +1,7 @@
+{
+  "name": "aquacrop-decision-lab",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-nuts2.mjs"
+  }
+}
