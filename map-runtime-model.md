@@ -1,0 +1,1 @@
+The browser reads regional geometry from a same-origin generated JSON asset. The official Eurostat NUTS source is accessed only during the deployment build.
