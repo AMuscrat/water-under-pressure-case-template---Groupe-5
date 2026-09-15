@@ -1,5 +1,6 @@
-const DEMO_USERNAME = 'planner';
-const DEMO_PASSWORD = 'water2026';
+const DEFAULT_USERS = [
+  { username: 'planner', password: 'water2026', role: 'planner', active: true }
+];
 
 const form = document.querySelector('#login-form');
 const username = document.querySelector('#username');
@@ -14,6 +15,18 @@ document.head.appendChild(uiRepairLink);
 
 if (sessionStorage.getItem('aquaCropSession') === 'active') {
   window.location.replace('index.html');
+}
+
+function getLocalUsers() {
+  try {
+    return JSON.parse(localStorage.getItem('aquaCropUsers') || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function getAllUsers() {
+  return [...DEFAULT_USERS, ...getLocalUsers()];
 }
 
 function setFieldError(input, message) {
@@ -49,12 +62,21 @@ form.addEventListener('submit', (event) => {
   loginError.hidden = true;
   if (!validateRequiredFields()) return;
 
-  if (username.value.trim() !== DEMO_USERNAME || password.value !== DEMO_PASSWORD) {
+  const enteredUsername = username.value.trim().toLowerCase();
+  const enteredPassword = password.value;
+  const match = getAllUsers().find((user) =>
+    user.active !== false &&
+    String(user.username).toLowerCase() === enteredUsername &&
+    user.password === enteredPassword
+  );
+
+  if (!match) {
     loginError.hidden = false;
     password.select();
     return;
   }
 
   sessionStorage.setItem('aquaCropSession', 'active');
+  sessionStorage.setItem('aquaCropUser', match.username);
   window.location.replace('index.html');
 });

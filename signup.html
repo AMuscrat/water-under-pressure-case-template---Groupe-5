@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create a prototype AquaCrop Decision Lab account." />
+  <title>Create account · AquaCrop Decision Lab</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="account.css" />
+</head>
+<body class="login-page">
+  <main class="login-shell">
+    <section class="login-story" aria-label="About AquaCrop Decision Lab">
+      <a class="login-brand" href="login.html" aria-label="AquaCrop Decision Lab home">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span><strong>AquaCrop</strong><small>Decision Lab</small></span>
+      </a>
+      <div class="login-story-copy">
+        <span class="eyebrow">CREATE YOUR WORKSPACE ACCESS</span>
+        <h1>Set up a simple prototype account.</h1>
+        <p>Choose a username and password to use this university demo in your current browser.</p>
+      </div>
+      <small class="login-disclaimer">Prototype account storage only · Do not reuse a real password</small>
+    </section>
+
+    <section class="login-form-side">
+      <div class="login-card">
+        <span class="eyebrow">NEW ACCOUNT</span>
+        <h2>Create an account</h2>
+        <p>Your username must be unique and your password must pass the checks below.</p>
+        <form id="signup-form" class="login-form" novalidate>
+          <label for="signup-username">Username</label>
+          <div class="text-field"><span aria-hidden="true">@</span><input id="signup-username" name="username" type="text" autocomplete="username" placeholder="Choose username" minlength="3" required /></div>
+          <span id="signup-username-error" class="field-error" aria-live="polite"></span>
+
+          <label for="signup-password">Password</label>
+          <div class="text-field"><span aria-hidden="true">●</span><input id="signup-password" name="password" type="password" autocomplete="new-password" placeholder="Choose password" required /><button class="password-toggle" type="button" data-toggle="signup-password">Show</button></div>
+          <span id="signup-password-error" class="field-error" aria-live="polite"></span>
+
+          <div class="password-checks" aria-live="polite">
+            <span data-rule="length">At least 8 characters</span>
+            <span data-rule="letter">At least one letter</span>
+            <span data-rule="number">At least one number</span>
+          </div>
+
+          <label for="signup-confirm">Confirm password</label>
+          <div class="text-field"><span aria-hidden="true">●</span><input id="signup-confirm" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Repeat password" required /><button class="password-toggle" type="button" data-toggle="signup-confirm">Show</button></div>
+          <span id="signup-confirm-error" class="field-error" aria-live="polite"></span>
+
+          <div id="signup-success" class="signup-success" role="status" hidden>Account created. You can now sign in.</div>
+          <button class="login-button" type="submit"><span>Create account</span><b aria-hidden="true">→</b></button>
+        </form>
+        <p class="account-switch">Already have an account? <a href="login.html">Back to sign in</a></p>
+        <p class="prototype-security-note"><strong>Prototype access only.</strong> New accounts are stored in localStorage on this browser and are not written back to the repository JSON file.</p>
+      </div>
+    </section>
+  </main>
+  <script src="signup.js"></script>
+</body>
+</html>
