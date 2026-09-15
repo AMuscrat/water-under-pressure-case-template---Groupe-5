@@ -1,0 +1,1 @@
+API-backed regional subset used by the Water & Climate selector: France 7, Italy 10, Portugal 5, Spain 5, Greece 12.
