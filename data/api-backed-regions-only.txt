@@ -1,0 +1,1 @@
+7 France; 10 Italy; 5 Portugal; 5 Spain; 12 Greece = 39 regions with existing regional indicator records.
