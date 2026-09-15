@@ -1,0 +1,1 @@
+The build script downloads the official 2024 NUTS 2 GeoJSON once during deployment and filters it to the modeled Southern European countries. The browser then reads only the local generated asset.
