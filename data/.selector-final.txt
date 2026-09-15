@@ -1,0 +1,1 @@
+The Water & Climate selector uses only the 39 regions represented in south-europe-regions.js.
