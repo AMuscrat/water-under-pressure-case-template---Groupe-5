@@ -1,0 +1,1 @@
+Runtime regional data is same-origin and generated during the deployment build from Eurostat NUTS 2 geography.
