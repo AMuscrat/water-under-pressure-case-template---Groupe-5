@@ -7,6 +7,9 @@ if (sessionStorage.getItem('aquaCropSession') !== 'active') {
     window.location.replace('login.html');
   });
 
+  const waterSlider = document.querySelector('#water');
+  if (waterSlider) waterSlider.min = '0';
+
   const load = (src) => new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = src;
