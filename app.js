@@ -159,6 +159,7 @@ if (sessionStorage.getItem('aquaCropSession') !== 'active') {
   }
 
   async function initialiseRegionalClimate() {
+    await loadScript('app-core.js');
     await loadScript('data/dashboard-regions-live.js');
 
     const regions = window.AQUACROP_LIVE_REGIONS || [];
