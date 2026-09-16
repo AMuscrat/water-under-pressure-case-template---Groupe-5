@@ -1,1 +1,118 @@
-.account-switch{margin-top:16px;text-align:center;font-size:12px;color:var(--muted)}.account-switch a{color:var(--teal-dark);font-weight:800;text-decoration:none}.account-switch a:hover{text-decoration:underline}.password-checks{display:grid;gap:6px;margin:-2px 0 4px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#f8fbfa;font-size:10px;color:#8a9996}.password-checks span::before{content:"○";display:inline-block;width:16px;color:#9aa9a6}.password-checks span.valid{color:#4f7e58;font-weight:700}.password-checks span.valid::before{content:"✓";color:#4f7e58}.signup-success{margin-top:4px;padding:10px 12px;border:1px solid #b9d9c0;border-radius:10px;background:#eef8f0;color:#4f7e58;font-size:11px;font-weight:700}.login-card .login-form+.account-switch{margin-bottom:12px}@media(max-width:680px){.account-switch{text-align:left}.password-checks{font-size:11px}}
+.account-switch {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.account-switch a {
+  color: var(--teal-dark);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.account-switch a:hover {
+  text-decoration: underline;
+}
+
+.signup-page .login-card {
+  width: min(440px, 100%);
+}
+
+.signup-page .login-card > p {
+  max-width: 390px;
+  line-height: 1.55;
+}
+
+.signup-page .login-form {
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.signup-page .text-field {
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+.password-checks {
+  display: grid;
+  gap: 6px;
+  margin: 2px 0 6px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f7faf8;
+  font-size: 10px;
+  color: #8a9996;
+}
+
+.password-checks-title {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.password-checks span[data-rule] {
+  display: flex;
+  align-items: center;
+  min-height: 18px;
+}
+
+.password-checks span[data-rule]::before {
+  content: "+";
+  display: inline-block;
+  width: 18px;
+  color: #9aa9a6;
+}
+
+.password-checks span.valid {
+  color: #4f7e58;
+  font-weight: 700;
+}
+
+.password-checks span.valid::before {
+  content: "OK";
+  color: #4f7e58;
+  font-size: 9px;
+}
+
+.signup-page .login-button {
+  margin-top: 12px;
+}
+
+.signup-success {
+  margin-top: 4px;
+  padding: 10px 12px;
+  border: 1px solid #b9d9c0;
+  border-radius: 10px;
+  background: #eef8f0;
+  color: #4f7e58;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.signup-page .prototype-security-note {
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+}
+
+.login-card .login-form + .account-switch {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 680px) {
+  .account-switch {
+    text-align: left;
+  }
+
+  .password-checks {
+    font-size: 11px;
+  }
+
+  .signup-page .login-card > p {
+    max-width: none;
+  }
+}

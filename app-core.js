@@ -1,7 +1,11 @@
 const crops = [
-  { id: 'olive', name: 'Olive', note: 'Resilient anchor crop', demand: 5400, yield: 8.8, efficiency: 92, mix: 58 },
-  { id: 'citrus', name: 'Citrus', note: 'High-value, higher demand', demand: 9200, yield: 9.4, efficiency: 68, mix: 27 },
-  { id: 'veg', name: 'Vegetables', note: 'Flexible summer block', demand: 6900, yield: 8.1, efficiency: 76, mix: 15 }
+  { id: 'olive', name: 'Olives', note: 'Drought-resilient Mediterranean anchor', demand: 5400, yield: 8.8, efficiency: 92, mix: 34 },
+  { id: 'citrus', name: 'Citrus', note: 'High-value perennial with steady demand', demand: 9200, yield: 9.4, efficiency: 68, mix: 14 },
+  { id: 'vegetables', name: 'Field vegetables', note: 'Flexible seasonal horticulture block', demand: 6900, yield: 8.1, efficiency: 76, mix: 10 },
+  { id: 'tomato', name: 'Tomatoes', note: 'High-value processing and fresh crop', demand: 6500, yield: 8.7, efficiency: 82, mix: 12 },
+  { id: 'grape', name: 'Grapes', note: 'Quality-focused vineyard allocation', demand: 4500, yield: 8.4, efficiency: 89, mix: 14 },
+  { id: 'wheat', name: 'Wheat', note: 'Lower-irrigation winter cereal', demand: 2500, yield: 7.4, efficiency: 94, mix: 9 },
+  { id: 'maize', name: 'Maize', note: 'Productive summer cereal with peak demand', demand: 7000, yield: 8.2, efficiency: 72, mix: 7 }
 ];
 
 const regions = {
@@ -115,15 +119,15 @@ function recommendation(){
   const grade=buffer<0?'Immediate rebalance':buffer<7?'Proceed with caution':state.stress>=4?'Proceed with controls':'Proceed as planned';
   const title=buffer<0?'Cut high-demand area before approval':buffer<7?'Build a 10% water reserve before planting':state.stress>=4?'Protect an olive-led mix through peak heat':'Maintain the diversified crop plan';
   const copy=buffer<0
-    ?`${region.name} is projected to exceed its available allocation by ${formatNumber(shortfall)} m³. Reduce the citrus and vegetable commitment before approving the seasonal plan.`
+    ?`${region.name} is projected to exceed its available allocation by ${formatNumber(shortfall)} m³. Reduce maize and the least productive tomato or citrus blocks before approving the seasonal plan.`
     :buffer<7
       ?`${region.name} remains inside budget, but the margin is too narrow for forecast error. Hold back at least ${formatNumber(reserveTarget)} m³ before fixing planted area.`
       :state.stress>=4
-        ?`${region.name} has ${buffer.toFixed(1)}% water headroom, but severe heat and drought pressure can erode it quickly. Keep olive as the anchor and gate expansion behind weekly checks.`
-        :`${region.name} can support the current crop mix with ${buffer.toFixed(1)}% headroom. Preserve the reserve, prioritise high-value blocks, and review the plan against the next forecast.`;
+        ?`${region.name} has ${buffer.toFixed(1)}% water headroom, but severe heat and drought pressure can erode it quickly. Keep olives and wheat as the resilient base, and gate maize or tomato expansion behind weekly checks.`
+        :`${region.name} can support the diversified mix with ${buffer.toFixed(1)}% headroom. Preserve the reserve, prioritise grapes and tomatoes on suitable parcels, and review the plan against the next forecast.`;
   const actions=[
     buffer<0
-      ?{title:'Close the allocation gap',copy:`Remove at least ${formatNumber(shortfall)} m³ of planned demand, starting with the least productive citrus and vegetable blocks.`,timing:'Before area approval'}
+      ?{title:'Close the allocation gap',copy:`Remove at least ${formatNumber(shortfall)} m³ of planned demand, starting with maize and the least productive tomato or citrus blocks.`,timing:'Before area approval'}
       :{title:'Ring-fence the reserve',copy:`Keep ${formatNumber(reserveTarget)} m³ uncommitted so the cooperative can absorb heat-driven demand or a delayed rainfall event.`,timing:'Before planting commitments'},
     dryForecast
       ?{title:'Activate the dry-week protocol',copy:`The live forecast shows ${live.rainfall.toFixed(0)} mm rain and ET₀ of ${live.et0.toFixed(1)} mm/day. Move irrigation to cooler hours and inspect priority blocks every 48 hours.`,timing:'Start this week'}
@@ -131,10 +135,10 @@ function recommendation(){
         ?{title:'Use the forecast window',copy:`The next seven days show ${live.rainfall.toFixed(0)} mm rain and a ${Math.round(live.maxTemp)}°C maximum. Adjust the next irrigation cycle before releasing additional water.`,timing:'Review in 7 days'}
         :{title:'Monitor field conditions',copy:'Live weather is unavailable. Use observed rainfall and field moisture before releasing the next irrigation block.',timing:'Check within 7 days'},
     region.overallStatus==='red'
-      ?{title:'Cap high-demand exposure',copy:'Hold citrus near 25% of planted area and require board approval before moving flexible hectares away from the olive-led plan.',timing:'Board control point'}
+      ?{title:'Cap high-demand exposure',copy:'Keep maize, citrus, and tomatoes within the approved shares, and require board approval before moving wheat or olive hectares into higher-demand crops.',timing:'Board control point'}
       :region.overallStatus==='yellow'
-        ?{title:'Protect high-value parcels',copy:'Concentrate citrus irrigation on the strongest commercial blocks and keep flexible hectares available for lower-demand crops.',timing:'Confirm parcel ranking'}
-        :{title:'Keep flexibility in the mix',copy:'Maintain the diversified plan, but avoid committing all available water while summer conditions can still change.',timing:'Reassess monthly'}
+        ?{title:'Protect high-value parcels',copy:'Concentrate citrus, grape, and tomato irrigation on the strongest commercial blocks, while retaining wheat as a lower-water option.',timing:'Confirm parcel ranking'}
+        :{title:'Keep flexibility in the mix',copy:'Maintain the seven-crop plan, but avoid committing all available water to maize and summer horticulture while conditions can still change.',timing:'Reassess monthly'}
   ];
   return{
     score,grade,title,copy,actions,usePercent,
@@ -168,9 +172,8 @@ function applyLiveDecisionRegion(region, metrics={}){
 
 window.AQUACROP_DECISION={applyLiveRegion:applyLiveDecisionRegion};
 
-function renderScenarios(){const demand=blendedDemand(), multiplier=getStressMultiplier(), modeMultiplier=state.focus==='water-first'?0.93:state.focus==='yield-first'?1.04:1, seasonalValues=crops.map(c=>Math.round(c.demand*state.area*(c.mix/100)*multiplier*modeMultiplier)); qs('#scenario-grid').innerHTML=crops.map((crop,index)=>{const seasonal=seasonalValues[index],pressure=Math.min(100,Math.round((seasonal/Math.max(state.water,1))*100)),isRecommended=crop.id==='olive';return `<article class="scenario-card ${isRecommended?'recommended':''}"><div class="scenario-top"><span class="crop-name">${crop.name}</span>${isRecommended?'<span class="scenario-tag">RECOMMENDED</span>':''}</div><p class="scenario-desc">${crop.note}</p><div class="scenario-metrics"><div class="metric"><span>Water need</span><strong>${formatNumber(seasonal)} m³</strong></div><div class="metric"><span>Yield index</span><strong>${crop.yield.toFixed(1)} / 10</strong></div><div class="metric"><span>Efficiency</span><strong>${crop.efficiency}%</strong></div><div class="metric"><span>Mock area</span><strong>${crop.mix}%</strong></div></div><div class="scenario-bar"><span style="width:${pressure}%"></span></div><div class="scenario-foot"><span>Water pressure</span><strong>${pressure}%</strong></div></article>`;}).join('');
-  document.querySelectorAll('[data-crop-row]').forEach((row,index)=>{row.querySelector('.bar-track i').style.width=`${Math.min(100,(seasonalValues[index]/Math.max(state.water,1))*100)}%`;row.querySelector('em').textContent=`${Math.round(seasonalValues[index]/1000)}k`;});
-  qs('#chart-total-demand').style.width=`${Math.min(100,(demand/Math.max(state.water,1))*100)}%`;qs('#chart-total-label').textContent=`${Math.round(demand/1000)}k`;
+function renderScenarios(){const demand=blendedDemand(), multiplier=getStressMultiplier(), modeMultiplier=state.focus==='water-first'?0.93:state.focus==='yield-first'?1.04:1, seasonalValues=crops.map(c=>Math.round(c.demand*state.area*(c.mix/100)*multiplier*modeMultiplier)); qs('#scenario-grid').innerHTML=crops.map((crop,index)=>{const seasonal=seasonalValues[index],pressure=Math.min(100,Math.round((seasonal/Math.max(state.water,1))*100)),isRecommended=crop.id==='olive',selectorLabel=crop.id==='maize'?'Corn':crop.name;return `<article class="scenario-card ${isRecommended?'recommended':''}"><div class="scenario-top"><span class="crop-name">${selectorLabel}</span>${isRecommended?'<span class="scenario-tag">RESILIENT BASE</span>':''}</div><p class="scenario-desc">${crop.note}</p><div class="scenario-metrics"><div class="metric"><span>Water need</span><strong>${formatNumber(seasonal)} m³</strong></div><div class="metric"><span>Yield index</span><strong>${crop.yield.toFixed(1)} / 10</strong></div><div class="metric"><span>Efficiency</span><strong>${crop.efficiency}%</strong></div><div class="metric"><span>Planning share</span><strong>${crop.mix}%</strong></div></div><div class="scenario-bar"><span style="width:${pressure}%"></span></div><div class="scenario-foot"><span>Water pressure</span><strong>${pressure}%</strong></div></article>`;}).join('');
+  qs('#crop-budget-chart').innerHTML=crops.map((crop,index)=>{const pressure=Math.min(100,(seasonalValues[index]/Math.max(state.water,1))*100);return `<div class="bar-row" data-crop-row="${crop.id}"><span>${crop.name}</span><div class="bar-track"><b style="width:${crop.mix}%"></b><i style="width:${pressure}%"></i></div><em>${Math.round(seasonalValues[index]/1000)}k</em></div>`;}).join('')+`<div class="bar-row total"><span>Total</span><div class="bar-track"><b style="width:100%"></b><i id="chart-total-demand" style="width:${Math.min(100,(demand/Math.max(state.water,1))*100)}%"></i></div><em id="chart-total-label">${Math.round(demand/1000)}k</em></div>`;
 }
 function render(){
   qs('#water-value').textContent=`${formatNumber(state.water)} m³`;
