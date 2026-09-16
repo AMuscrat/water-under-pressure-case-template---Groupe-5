@@ -1,0 +1,13 @@
+{
+  "prototypeOnly": true,
+  "warning": "Demo credentials only. Do not store real user passwords in this public static repository.",
+  "users": [
+    {
+      "id": 1,
+      "username": "planner",
+      "password": "water2026",
+      "role": "planner",
+      "active": true
+    }
+  ]
+}

@@ -6,6 +6,7 @@
   <meta name="description" content="Sign in to the AquaCrop Decision Lab mock scenario workspace." />
   <title>Sign in · AquaCrop Decision Lab</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="account.css" />
 </head>
 <body class="login-page">
   <main class="login-shell">
@@ -32,7 +33,7 @@
       <div class="login-card">
         <span class="eyebrow">WELCOME BACK</span>
         <h2>Sign in to Decision Lab</h2>
-        <p>Use the demo workspace credentials below.</p>
+        <p>Use the demo credentials below or sign in with an account created in this browser.</p>
         <form id="login-form" class="login-form" novalidate>
           <label for="username">Username</label>
           <div class="text-field"><span aria-hidden="true">@</span><input id="username" name="username" type="text" autocomplete="username" placeholder="Enter username" required /></div>
@@ -40,11 +41,12 @@
           <label for="password">Password</label>
           <div class="text-field"><span aria-hidden="true">●</span><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter password" required /><button id="toggle-password" class="password-toggle" type="button" aria-label="Show password">Show</button></div>
           <span id="password-error" class="field-error" aria-live="polite"></span>
-          <div id="login-error" class="login-error" role="alert" hidden>That username or password is incorrect. Try the demo credentials below.</div>
+          <div id="login-error" class="login-error" role="alert" hidden>That username or password is incorrect.</div>
           <button class="login-button" type="submit"><span>Enter workspace</span><b aria-hidden="true">→</b></button>
         </form>
+        <p class="account-switch">New here? <a href="signup.html">Create an account</a></p>
         <div class="demo-credentials"><div><span>Demo username</span><strong>planner</strong></div><div><span>Demo password</span><strong>water2026</strong></div></div>
-        <p class="prototype-security-note"><strong>Prototype access only.</strong> This static demo does not provide production authentication or store personal credentials.</p>
+        <p class="prototype-security-note"><strong>Prototype access only.</strong> Accounts created here are stored only in this browser for the university demo.</p>
       </div>
     </section>
   </main>

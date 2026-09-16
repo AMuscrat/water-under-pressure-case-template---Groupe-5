@@ -1,0 +1,1 @@
+Regional map plan: NUTS 2 geography is generated at deployment time from the official Eurostat Nuts2json 2024 dataset and served locally to the browser. This avoids third-party runtime map requests while preserving real subnational geography.
