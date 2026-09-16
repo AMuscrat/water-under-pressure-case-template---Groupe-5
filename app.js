@@ -1,4 +1,6 @@
-(() => {
+if (sessionStorage.getItem('aquaCropSession') !== 'active') {
+  window.location.replace('login.html');
+} else (() => {
   'use strict';
 
   const loadScript = (src) => new Promise((resolve, reject) => {
@@ -14,6 +16,12 @@
     const el = $(selector);
     if (el) el.textContent = value;
   };
+
+  $('#sign-out')?.addEventListener('click', () => {
+    sessionStorage.removeItem('aquaCropSession');
+    sessionStorage.removeItem('aquaCropUser');
+    window.location.replace('login.html');
+  });
 
   const mean = (values) => {
     const clean = (values || []).filter((value) => Number.isFinite(value));
@@ -151,7 +159,6 @@
   }
 
   async function initialiseRegionalClimate() {
-    await loadScript('app-core.js');
     await loadScript('data/dashboard-regions-live.js');
 
     const regions = window.AQUACROP_LIVE_REGIONS || [];
