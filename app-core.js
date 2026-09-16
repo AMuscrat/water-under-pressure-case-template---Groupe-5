@@ -90,8 +90,7 @@ function renderClimate(){
   qs('#rainfall-chart').style.setProperty('--chart-color',live?'#2b7a6f':statusColors[region.rainfallStatus]);
   qs('#rainfall-chart').setAttribute('aria-label',live?`Live seven day precipitation forecast for ${region.name}`:`${region.name} monthly rainfall from January to June`);
   qs('#rainfall-chart').innerHTML=values.slice(0,7).map((value,index)=>`<div class="rainfall-column"><em>${Math.round(value)}</em><b style="height:${Math.max(4,(value/rainfallMax)*92)}%"></b><span>${live?months[index]:['Jan','Feb','Mar','Apr','May','Jun'][index]}</span></div>`).join('');
-  qs('#water-sparkline').style.setProperty('--spark-color',statusColors[region.overallStatus]);
-  qs('#water-sparkline').innerHTML=region.waterTrend.map(value=>`<i style="height:${Math.max(8,(value/70)*100)}%"></i>`).join('');
+  if(qs('#water-sparkline')){qs('#water-sparkline').style.setProperty('--spark-color',statusColors[region.overallStatus]);qs('#water-sparkline').innerHTML=region.waterTrend.map(value=>`<i style="height:${Math.max(8,(value/70)*100)}%"></i>`).join('');}
   qs('#water-budget-panel').style.setProperty('--demand-color',statusColors[region.overallStatus]);
   const resources=[{label:'Reservoir',value:region.reservoir,suffix:'%',status:region.reservoirStatus},{label:'Soil moisture',value:region.soil,suffix:'%',status:region.soilStatus},{label:'Irrigation cover',value:region.irrigationCoverage,suffix:'%',status:region.irrigationStatus}];
   qs('#resource-chart').innerHTML=resources.map(item=>`<div class="resource-row"><span>${item.label}</span><div class="resource-track"><b style="width:${item.value}%;--bar-color:${statusColors[item.status]}"></b></div><strong>${item.value}${item.suffix}</strong></div>`).join('');
@@ -180,15 +179,12 @@ function render(){
   qs('#water-value').textContent=`${formatNumber(state.water)} m³`;
   qs('#area-value').textContent=`${state.area} ha`;
   qs('#stress-value').textContent=stressNames[state.stress-1];
-  qs('#kpi-water').textContent=formatNumber(state.water);
+  if(qs('#kpi-water'))qs('#kpi-water').textContent=formatNumber(state.water);
   const demand=blendedDemand(),buffer=((state.water-demand)/Math.max(demand,1))*100,efficiency=Math.max(45,Math.min(96,Math.round(100-(demand/Math.max(state.water,1))*25-(state.stress-3)*5))),rec=recommendation();
-  qs('#kpi-demand').textContent=formatNumber(demand);
-  qs('#kpi-buffer').textContent=`${buffer>=0?'+':''}${buffer.toFixed(1)}% buffer`;
-  qs('#kpi-buffer').className=`chip ${buffer>=5?'positive':'neutral'}`;
-  qs('#kpi-efficiency').textContent=`${efficiency}%`;
-  qs('#efficiency-bar').style.width=`${efficiency}%`;
-  qs('#kpi-mix').textContent=rec.score>=68?'Olive-led':'Rebalance';
-  qs('#kpi-alert').textContent=state.stress>=4?'High heat weeks':'Watch heat weeks';
+  if(qs('#kpi-demand'))qs('#kpi-demand').textContent=formatNumber(demand);
+  if(qs('#kpi-buffer')){qs('#kpi-buffer').textContent=`${buffer>=0?'+':''}${buffer.toFixed(1)}% buffer`;qs('#kpi-buffer').className=`chip ${buffer>=5?'positive':'neutral'}`;}
+  if(qs('#kpi-efficiency'))qs('#kpi-efficiency').textContent=`${efficiency}%`;
+  if(qs('#efficiency-bar'))qs('#efficiency-bar').style.width=`${efficiency}%`;
   qs('#recommendation-score').textContent=rec.score;
   qs('#recommendation-grade').textContent=rec.grade;
   qs('#recommendation-title').textContent=rec.title;
