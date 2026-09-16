@@ -107,7 +107,7 @@
 
     <section class="methodology-note data-note">
       <strong>Data note:</strong>
-      Country outlines and NUTS-2 region polygons are sourced from Eurostat GISCO GeoJSON, projected together, and baked into <code>data/europe-geo-data.js</code> at development time by <code>scripts/build-map-data.mjs</code>. They are suitable for this mock decision-support interface, but all water-pressure indicators remain mock values. Malta and Gozo (MT-M / MT-G) share the same NUTS-2 boundary (MT00), so they render as the same shape on this map.
+      Country outlines and NUTS-2 region polygons are sourced from Eurostat GISCO GeoJSON, projected together, and baked into <code>data/europe-geo-data.js</code> at development time by <code>scripts/build-map-data.mjs</code>. Drought pressure and seven-day rainfall are derived from Open-Meteo forecasts and stored as a build-time snapshot in <code>data/region-climate-live.js</code>, with an <code>asOf</code> timestamp. WEI+ and irrigation exposure use cited Eurostat/EEA figures for a named flagship subset only; no official free region-level figure is available for the other regions, so those values are shown as unavailable rather than estimated. Malta and Gozo (MT-M / MT-G) share the same NUTS-2 boundary (MT00), so they render as the same shape on this map.
     </section>
 
     <footer class="footer">
@@ -117,6 +117,8 @@
 
   <script src="province-map-data.js"></script>
   <script src="data/europe-geo-data.js"></script>
+  <script src="data/region-climate-live.js"></script>
+  <script src="data/region-water-scarcity.js"></script>
   <script src="province-map.js"></script>
 </body>
 </html>
