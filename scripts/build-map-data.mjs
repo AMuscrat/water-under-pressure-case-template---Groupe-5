@@ -8,6 +8,7 @@ const project = ([lon, lat]) => [
 ];
 
 const REGION_URL = 'https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_60M_2024_4326_LEVL_2.geojson';
+const COUNTRY_URL = 'https://gisco-services.ec.europa.eu/distribution/v2/countries/geojson/CNTR_RG_60M_2024_4326.geojson';
 const regionCodes = {
   'ES-GA': ['ES11'], 'ES-CL': ['ES41'], 'ES-AR': ['ES24'], 'ES-CT': ['ES51'], 'ES-CM': ['ES42'], 'ES-EX': ['ES43'], 'ES-AN': ['ES61'], 'ES-MU': ['ES62'], 'ES-VC': ['ES52'],
   'FR-BR': ['FR52'], 'FR-NO': ['FR25'], 'FR-IDF': ['FR10'], 'FR-GE': ['FRF1','FRF2','FRF3','FRF4','FRF5'], 'FR-NA': ['FRI1','FRI2','FRI3'], 'FR-AURA': ['FRK1','FRK2'], 'FR-OCC': ['FRJ1','FRJ2','FRJ3'], 'FR-PACA': ['FRL0'],
@@ -23,14 +24,24 @@ const path = (ring) => ring.map((p, i) => `${i ? 'L' : 'M'}${project(p).map(n =>
 const featurePaths = (f) => geom(f.geometry).map(path).filter(Boolean);
 const name = (f) => f.properties?.NAME_LATN ?? f.properties?.NAME_ENGL ?? f.properties?.CNTR_NAME ?? f.properties?.name ?? 'Region';
 
-const regions = await fetch(REGION_URL).then(r => r.json());
+const [regions, countries] = await Promise.all([
+  fetch(REGION_URL).then(r => r.json()),
+  fetch(COUNTRY_URL).then(r => r.json()),
+]);
 const regionFeatures = regions.features.filter(f => featurePaths(f).length);
+const countryFeatures = countries.features.filter(f => featurePaths(f).length);
 const out = { width: WIDTH, height: HEIGHT, view: VIEW, countries: [], regions: {} };
 const focusCodes = new Set(['ES','FR','PT','IT','MT','EL','AL']);
 const iso3 = {ES:'ESP',FR:'FRA',PT:'PRT',IT:'ITA',MT:'MLT',EL:'GRC',AL:'ALB'};
 for (const code of focusCodes) {
   const features = regionFeatures.filter(f => id(f).startsWith(code));
   if (features.length) out.countries.push({ id: iso3[code], name: {ES:'Spain',FR:'France',PT:'Portugal',IT:'Italy',MT:'Malta',EL:'Greece',AL:'Albania'}[code], paths: features.flatMap(featurePaths) });
+}
+for (const f of countryFeatures) {
+  const code = String(f.properties?.ISO3_CODE ?? '');
+  if (!focusCodes.has(String(f.properties?.CNTR_ID ?? '')) && code && !out.countries.some(c => c.id === code)) {
+    out.countries.push({ id: code, name: f.properties?.NAME_ENGL ?? name(f), paths: featurePaths(f) });
+  }
 }
 for (const [mockId, codes] of Object.entries(regionCodes)) {
   const matches = regionFeatures.filter(f => codes.includes(id(f)));

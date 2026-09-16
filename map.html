@@ -107,7 +107,7 @@
 
     <section class="methodology-note data-note">
       <strong>Data note:</strong>
-      Country outlines are loaded from the repository’s bundled Natural Earth-derived SVG. Internal areas are deterministic prototype planning zones, generated from representative centroids for the named subnational regions and clipped to each country outline. They are suitable for this mock decision-support interface, but they are not official administrative or NUTS boundaries. All water-pressure indicators are mock values.
+      Country outlines and NUTS-2 region polygons are sourced from Eurostat GISCO GeoJSON, projected together, and baked into <code>data/europe-geo-data.js</code> at development time by <code>scripts/build-map-data.mjs</code>. They are suitable for this mock decision-support interface, but all water-pressure indicators remain mock values. Malta and Gozo (MT-M / MT-G) share the same NUTS-2 boundary (MT00), so they render as the same shape on this map.
     </section>
 
     <footer class="footer">
