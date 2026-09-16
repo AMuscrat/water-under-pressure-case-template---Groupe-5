@@ -103,12 +103,14 @@
     const values = points.map((item) => item.value);
     const max12m = Math.max(...values.slice(-12), 0);
     const relative = max12m > 0 ? clamp((latest.value / max12m) * 100, 0, 100) : null;
+    const relativeTrend = max12m > 0 ? values.slice(-7).map((value) => clamp((value / max12m) * 100, 0, 100)) : [];
     return {
       variable: payload.variable_name || variable.name,
       unit: payload.variable_unit || '',
       latest: latest.value,
       timestamp: latest.t,
       relative,
+      relativeTrend,
       storage: variable.storage || /m3|m³|storage|volume/i.test(`${payload.variable_name || ''} ${payload.variable_unit || ''}`)
     };
   }
@@ -136,12 +138,13 @@
     return Math.round(components.reduce((total, item) => total + item[0] * item[1], 0) / weight);
   }
 
-  function renderRainfallChart(regionName, precipitation) {
+  function renderRainfallChart(regionName, precipitation, status) {
     const chart = $('#rainfall-chart');
     if (!chart) return;
     const values = (precipitation || []).slice(0, 7);
     const maxValue = Math.max(...values, 1);
-    chart.style.setProperty('--chart-color', '#2b7a6f');
+    const colors = { red: '#c95d46', yellow: '#d49a2f', green: '#4f9563' };
+    chart.style.setProperty('--chart-color', colors[status] || '#2b7a6f');
     chart.setAttribute('aria-label', `Live seven day precipitation forecast for ${regionName}`);
     chart.innerHTML = values.map((value, index) => `<div class="rainfall-column"><em>${Math.round(value || 0)}</em><b style="height:${Math.max(4, ((value || 0) / maxValue) * 92)}%"></b><span>Day ${index + 1}</span></div>`).join('');
   }
@@ -186,6 +189,8 @@
     const maxTemp = maxTemps.length ? Math.max(...maxTemps) : null;
     const soil = weather ? mean((hourly.soil_moisture_0_to_7cm || []).slice(0, 24)) : null;
     const pressure = pressureFromWeather(et0, maxTemp);
+    const rainfallStatus = statusFromScore(Number.isFinite(rainfall) ? clamp((rainfall / 35) * 100, 0, 100) : null);
+    const soilStatus = statusFromScore(Number.isFinite(soil) ? clamp((soil / 0.35) * 100, 0, 100) : null);
 
     if (weather) {
       setText('#climate-rainfall', `${Math.round(rainfall)} mm`);
@@ -200,7 +205,7 @@
         setText('#climate-soil', `${(soil * 100).toFixed(1)}%`);
         setText('#soil-detail', '0–7 cm volumetric soil water · next 24 h mean');
       }
-      renderRainfallChart(region.name, daily.precipitation_sum);
+      renderRainfallChart(region.name, daily.precipitation_sum, rainfallStatus.css);
     } else {
       setText('#climate-rainfall', '—');
       setText('#rainfall-detail', weatherResult.reason?.message || 'Open-Meteo unavailable');
@@ -221,6 +226,7 @@
 
     const irrigationScore = irrigationAvailability({ reservoirRelative: reservoir?.relative, soil, rainfall, et0 });
     const irrigationStatus = statusFromScore(irrigationScore);
+    const reservoirStatus = statusFromScore(reservoir?.relative);
     setText('#climate-irrigation', Number.isFinite(irrigationScore) ? `${irrigationScore}% est.` : '—');
     setText('#irrigation-detail', Number.isFinite(irrigationScore)
       ? 'API-derived irrigation availability estimate · reservoir + soil + rainfall + ET₀ · not an official allocation'
@@ -230,13 +236,30 @@
     if (badge) { badge.innerHTML = `<i></i>${pressure.label} climate pressure`; badge.className = `status-badge status-${pressure.css}`; }
     const resourceStatus = $('#resource-status');
     if (resourceStatus) { resourceStatus.textContent = irrigationStatus.label; resourceStatus.className = `chart-status-pill status-${irrigationStatus.css}`; }
+    [
+      ['#rainfall-card', rainfallStatus.css],
+      ['#reservoir-card', reservoirStatus.css],
+      ['#drought-card', pressure.css],
+      ['#soil-card', soilStatus.css],
+      ['#irrigation-card', irrigationStatus.css]
+    ].forEach(([selector, css]) => {
+      const card = $(selector);
+      if (card) card.className = `climate-kpi status-${css}`;
+    });
     renderResourceChart(reservoir?.relative, soil, irrigationScore);
+    const sparkline = $('#water-sparkline');
+    if (sparkline) {
+      const colors = { red: '#c95d46', yellow: '#d49a2f', green: '#4f9563' };
+      sparkline.style.setProperty('--spark-color', colors[reservoirStatus.css]);
+      sparkline.innerHTML = (reservoir?.relativeTrend || []).map((value) => `<i style="height:${Math.max(8, value)}%"></i>`).join('');
+    }
 
     const available = [weather ? 'Open-Meteo' : null, reservoir ? 'Global Water Watch' : null].filter(Boolean).join(' + ');
     if (source) {
       source.textContent = available ? `LIVE · ${available}` : 'LIVE API ERROR';
       source.className = available ? 'live-source live' : 'live-source fallback';
     }
+    window.AQUACROP_DECISION?.applyLiveRegion(region, { weather, reservoir, irrigationScore, irrigationStatus, pressure });
   }
 
   async function initialiseRegionalClimate() {
