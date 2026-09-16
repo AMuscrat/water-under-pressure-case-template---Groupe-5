@@ -2,6 +2,8 @@
 
 Unlike the other case, this one has no ready-made CSV files. Instead, here are real, free, public European data sources — pick whichever ones fit the angle you choose. You don't need to use all of them, or even most of them. Every link below has been checked and works.
 
+Sources used by the map: Eurostat GISCO geometry; Open-Meteo Forecast API for the build-time regional climate snapshot ([Open-Meteo](https://open-meteo.com/en/docs)); and Eurostat SDG 06_60 / tai03 for the cited country-scope flagship water-scarcity and irrigation observations.
+
 ## Start here — easy, no signup required
 
 These four are the fastest way to get real data into your hands. No account, no API key, plain download formats you can open directly.
