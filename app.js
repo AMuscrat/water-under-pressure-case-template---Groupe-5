@@ -32,7 +32,7 @@ if (sessionStorage.getItem('aquaCropSession') !== 'active') {
     if (!farmInputs.querySelector('.farm-inputs-intro')) {
       const intro = document.createElement('p');
       intro.className = 'farm-inputs-intro';
-      intro.textContent = 'Enter your cooperative or company assumptions first. These values drive the water budget, crop scenarios, and recommendations shown below.';
+      intro.textContent = 'Enter your cooperative or company assumptions first. Add your irrigation setup, soil, growing season, and crops; API data then drives the crop comparison and downstream decision workspace.';
       heading?.insertAdjacentElement('afterend', intro);
     }
 
@@ -43,7 +43,7 @@ if (sessionStorage.getItem('aquaCropSession') !== 'active') {
       const calloutCopy = callout.querySelector('p');
       if (calloutEyebrow) calloutEyebrow.textContent = 'WHY THIS COMES FIRST';
       if (calloutTitle) calloutTitle.textContent = 'Your company data drives every result.';
-      if (calloutCopy) calloutCopy.textContent = 'Set your available irrigation water, farm area, and drought pressure before reviewing the climate outlook, crop scenarios, and board recommendations.';
+      if (calloutCopy) calloutCopy.textContent = 'Set available water, farm area, irrigation efficiency and method, soil type, growing season, and crops before reviewing the climate outlook, crop scenarios, and board recommendations.';
     }
   }
 
@@ -77,5 +77,6 @@ if (sessionStorage.getItem('aquaCropSession') !== 'active') {
   (async () => {
     await load('app-water-api-copy.js');
     await load('app-water-api.js');
-  })().catch((error) => console.error('Water API loader failed', error));
+    await load('farm-inputs-api.js');
+  })().catch((error) => console.error('Dashboard API loader failed', error));
 }
