@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="account.css" />
 </head>
-<body class="login-page">
+<body class="login-page signup-page">
   <main class="login-shell">
     <section class="login-story" aria-label="About AquaCrop Decision Lab">
       <a class="login-brand" href="login.html" aria-label="AquaCrop Decision Lab home">
@@ -34,17 +34,18 @@
           <span id="signup-username-error" class="field-error" aria-live="polite"></span>
 
           <label for="signup-password">Password</label>
-          <div class="text-field"><span aria-hidden="true">●</span><input id="signup-password" name="password" type="password" autocomplete="new-password" placeholder="Choose password" required /><button class="password-toggle" type="button" data-toggle="signup-password">Show</button></div>
+          <div class="text-field"><span aria-hidden="true">●</span><input id="signup-password" name="password" type="password" autocomplete="new-password" placeholder="Choose password" required /><button class="password-toggle" type="button" data-toggle="signup-password" aria-label="Show password">Show</button></div>
           <span id="signup-password-error" class="field-error" aria-live="polite"></span>
 
           <div class="password-checks" aria-live="polite">
+            <span class="password-checks-title">Password requirements</span>
             <span data-rule="length">At least 8 characters</span>
             <span data-rule="letter">At least one letter</span>
             <span data-rule="number">At least one number</span>
           </div>
 
           <label for="signup-confirm">Confirm password</label>
-          <div class="text-field"><span aria-hidden="true">●</span><input id="signup-confirm" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Repeat password" required /><button class="password-toggle" type="button" data-toggle="signup-confirm">Show</button></div>
+          <div class="text-field"><span aria-hidden="true">●</span><input id="signup-confirm" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Repeat password" required /><button class="password-toggle" type="button" data-toggle="signup-confirm" aria-label="Show confirmation password">Show</button></div>
           <span id="signup-confirm-error" class="field-error" aria-live="polite"></span>
 
           <div id="signup-success" class="signup-success" role="status" hidden>Account created. You can now sign in.</div>
