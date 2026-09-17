@@ -10,11 +10,6 @@ if (sessionStorage.getItem('aquaCropSession') !== 'active') {
   const waterSlider = document.querySelector('#water');
   if (waterSlider) waterSlider.min = '0';
 
-  const priorityStyles = document.createElement('link');
-  priorityStyles.rel = 'stylesheet';
-  priorityStyles.href = 'farm-inputs-priority.css';
-  document.head.appendChild(priorityStyles);
-
   const farmInputs = document.querySelector('#farm-inputs');
   const overview = document.querySelector('#overview');
   if (farmInputs && overview) {

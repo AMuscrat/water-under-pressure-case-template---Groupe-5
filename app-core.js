@@ -211,7 +211,3 @@ document.querySelectorAll('.nav-item').forEach(link=>link.addEventListener('clic
 renderClimate();
 render();
 
-const uiRepairLink=document.createElement('link');
-uiRepairLink.rel='stylesheet';
-uiRepairLink.href='ui-fixes.css';
-document.head.appendChild(uiRepairLink);
