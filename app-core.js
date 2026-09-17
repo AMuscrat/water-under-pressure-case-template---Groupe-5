@@ -20,6 +20,9 @@ const qs=(selector)=>document.querySelector(selector);
 const statusColors={green:'#4f9563',yellow:'#d49a2f',red:'#c95d46'};
 
 function formatNumber(n){return Math.round(n).toLocaleString('en-US');}
+const WATER_EPSILON=1e-6;
+function budgetUseLabel(demand){if(state.water<=WATER_EPSILON)return 'No irrigation water allocated';const percent=Math.round((demand/state.water)*100);return percent>999?'999%+':`${percent}%`;}
+function cropImpactLabel(seasonal){if(state.water<=WATER_EPSILON)return 'No water allocated for this crop';const percent=((seasonal-state.water)/state.water)*100;return Math.abs(percent)>999?`${percent>0?'+':'-'}999%+`:`${percent>0?'+':''}${percent.toFixed(0)}%`+(percent>0?' over available budget':' under available budget');}
 function getStressMultiplier(){return 1+(state.stress-3)*0.08;}
 function blendedDemand(){const base=crops.reduce((sum,c)=>sum+c.demand*(c.mix/100),0)*state.area;return Math.round(base*getStressMultiplier()*(state.focus==='yield-first'?1.04:state.focus==='water-first'?0.94:1));}
 function setStatus(selector,baseClass,status){qs(selector).className=`${baseClass} status-${status}`;}
@@ -57,7 +60,7 @@ function renderClimate(){
   qs('#region-country').textContent=`${region.country.toUpperCase()} · 2026 GROWING SEASON`;
   qs('#region-summary').textContent=region.summary;
   qs('#region-note').textContent=region.note;
-  qs('#climate-headline').textContent=`${region.name}'s water outlook is ${region.overallLabel.toLowerCase()} this season.`;
+  qs('#climate-headline').textContent=region.liveHeadline||`${region.name}'s water outlook is ${region.overallLabel.toLowerCase()} this season.`;
   qs('#current-lens').textContent=`${region.name} · ${region.overallLabel.toLowerCase()}`;
   qs('#overall-status').innerHTML=`<i></i>${region.overallLabel}`;
   setStatus('#overall-status','status-badge',region.overallStatus);
@@ -113,7 +116,7 @@ function recommendation(){
   const score=Math.round(Math.max(42,Math.min(96,fit-stressPenalty+focusBonus)));
   const region=regions[state.region];
   const live=liveMetrics();
-  const usePercent=Math.round((demand/Math.max(state.water,1))*100);
+  const usePercent=state.water<=WATER_EPSILON?null:Math.round((demand/state.water)*100);
   const shortfall=Math.max(0,demand-state.water);
   const reserveTarget=Math.round(state.water*0.1);
   const dryForecast=live&&(live.rainfall<10||live.et0>4);
@@ -161,7 +164,7 @@ function applyLiveDecisionRegion(region, metrics={}){
   const status=metrics.irrigationStatus?.css||baseline.overallStatus;
   const stress=status==='red'?5:status==='yellow'?3:2;
   const water=Math.round(Math.max(3000000,Math.min(7000000,3000000+(score/100)*4000000))/100000)*100000;
-  regions[region.id]={...baseline,name:region.name,country:region.country,overallStatus:status,overallLabel:metrics.irrigationStatus?.label||baseline.overallLabel,irrigation:water,stress};
+  regions[region.id]={...baseline,name:region.name,country:region.country,overallStatus:status,overallLabel:metrics.irrigationStatus?.label||baseline.overallLabel,liveHeadline:metrics.pressure?`${region.name}'s water outlook is ${metrics.pressure.label.toLowerCase()} this season.`:null,irrigation:water,stress};
   state.region=region.id;
   state.water=water;
   state.stress=stress;
@@ -173,7 +176,7 @@ function applyLiveDecisionRegion(region, metrics={}){
 
 window.AQUACROP_DECISION={applyLiveRegion:applyLiveDecisionRegion};
 
-function renderScenarios(){const demand=blendedDemand(), multiplier=getStressMultiplier(), modeMultiplier=state.focus==='water-first'?0.93:state.focus==='yield-first'?1.04:1, seasonalValues=crops.map(c=>Math.round(c.demand*state.area*(c.mix/100)*multiplier*modeMultiplier)); qs('#scenario-grid').innerHTML=crops.map((crop,index)=>{const seasonal=seasonalValues[index],pressure=Math.min(100,Math.round((seasonal/Math.max(state.water,1))*100)),impact=((seasonal-state.water)/Math.max(state.water,1))*100,isRecommended=crop.id==='olive',selectorLabel=crop.id==='maize'?'Corn':crop.name,impactText=impact>0?`+${impact.toFixed(0)}% over available budget`:`${Math.abs(impact).toFixed(0)}% under available budget`;return `<article class="scenario-card ${isRecommended?'recommended':''}"><div class="scenario-top"><span class="crop-name">${selectorLabel}</span>${isRecommended?'<span class="scenario-tag">RESILIENT BASE</span>':''}</div><p class="scenario-desc">${crop.note}</p><div class="scenario-metrics"><div class="metric"><span>Water need</span><strong>${formatNumber(seasonal)} m³</strong></div><div class="metric"><span>Yield index</span><strong>${crop.yield.toFixed(1)} / 10</strong></div><div class="metric"><span>Efficiency</span><strong>${crop.efficiency}%</strong></div><div class="metric"><span>Planning share</span><strong>${crop.mix}%</strong></div></div><p class="scenario-impact">Choosing this crop uses ${impactText}.</p><div class="scenario-bar"><span style="width:${pressure}%"></span></div><div class="scenario-foot"><span>Water pressure</span><strong>${pressure}%</strong></div></article>`;}).join('');
+function renderScenarios(){const demand=blendedDemand(), multiplier=getStressMultiplier(), modeMultiplier=state.focus==='water-first'?0.93:state.focus==='yield-first'?1.04:1, seasonalValues=crops.map(c=>Math.round(c.demand*state.area*(c.mix/100)*multiplier*modeMultiplier)); qs('#scenario-grid').innerHTML=crops.map((crop,index)=>{const seasonal=seasonalValues[index],pressure=Math.min(100,Math.round((seasonal/Math.max(state.water,1))*100)),isRecommended=crop.id==='olive',selectorLabel=crop.id==='maize'?'Corn':crop.name,impactText=cropImpactLabel(seasonal);return `<article class="scenario-card ${isRecommended?'recommended':''}"><div class="scenario-top"><span class="crop-name">${selectorLabel}</span>${isRecommended?'<span class="scenario-tag">RESILIENT BASE</span>':''}</div><p class="scenario-desc">${crop.note}</p><div class="scenario-metrics"><div class="metric"><span>Water need</span><strong>${formatNumber(seasonal)} m³</strong></div><div class="metric"><span>Yield index</span><strong>${crop.yield.toFixed(1)} / 10</strong></div><div class="metric"><span>Efficiency</span><strong>${crop.efficiency}%</strong></div><div class="metric"><span>Planning share</span><strong>${crop.mix}%</strong></div></div><p class="scenario-impact">${state.water<=WATER_EPSILON?impactText:`Choosing this crop uses ${impactText}.`}</p><div class="scenario-bar"><span style="width:${pressure}%"></span></div><div class="scenario-foot"><span>Water pressure</span><strong>${pressure}%</strong></div></article>`;}).join('');
   qs('#crop-budget-chart').innerHTML=crops.map((crop,index)=>{const pressure=Math.min(100,(seasonalValues[index]/Math.max(state.water,1))*100);return `<div class="bar-row" data-crop-row="${crop.id}"><span>${crop.name}</span><div class="bar-track"><b style="width:${crop.mix}%"></b><i style="width:${pressure}%"></i></div><em>${Math.round(seasonalValues[index]/1000)}k</em></div>`;}).join('')+`<div class="bar-row total"><span>Total</span><div class="bar-track"><b style="width:100%"></b><i id="chart-total-demand" style="width:${Math.min(100,(demand/Math.max(state.water,1))*100)}%"></i></div><em id="chart-total-label">${Math.round(demand/1000)}k</em></div>`;
 }
 function render(){
@@ -198,8 +201,8 @@ function render(){
   qs('#recommendation-posture-note').textContent=rec.postureNote;
   qs('#recommendation-region').textContent=`${regions[state.region].name} · ${regions[state.region].country}`;
   qs('#action-list').innerHTML=rec.actions.map((action,index)=>`<div><span>0${index+1}</span><strong>${action.title}</strong><small>${action.copy}</small><em>${action.timing}</em></div>`).join('');
-  qs('#budget-use-percent').textContent=`${rec.usePercent}%`;
-  qs('#budget-use-note').textContent=rec.usePercent>100?'of allocation · corrective action required':'of available allocation';
+  qs('#budget-use-percent').textContent=budgetUseLabel(demand);
+  qs('#budget-use-note').textContent=state.water<=WATER_EPSILON?'Increase allocation to calculate usage':rec.usePercent>999?'of allocation · corrective action required':rec.usePercent>100?'of allocation · corrective action required':'of available allocation';
   qs('#budget-review-date').textContent=rec.reviewLabel;
   qs('#chart-status').textContent=buffer>=0?'Within budget':'Over budget';
   qs('#chart-status').style.color=buffer>=0?'#4f7e58':'#b6523f';
@@ -211,7 +214,3 @@ document.querySelectorAll('.nav-item').forEach(link=>link.addEventListener('clic
 renderClimate();
 render();
 
-const uiRepairLink=document.createElement('link');
-uiRepairLink.rel='stylesheet';
-uiRepairLink.href='ui-fixes.css';
-document.head.appendChild(uiRepairLink);

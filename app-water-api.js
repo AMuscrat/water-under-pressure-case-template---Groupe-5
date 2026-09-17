@@ -1,14 +1,6 @@
 (() => {
   'use strict';
 
-  const loadScript = (src) => new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = () => reject(new Error(`Failed to load ${src}`));
-    document.head.appendChild(script);
-  });
-
   const GWW_BASE = 'https://api.globalwaterwatch.earth';
   const $ = (selector) => document.querySelector(selector);
   const setText = (selector, value) => { const el = $(selector); if (el) el.textContent = value; };
@@ -189,6 +181,7 @@
     const maxTemp = maxTemps.length ? Math.max(...maxTemps) : null;
     const soil = weather ? mean((hourly.soil_moisture_0_to_7cm || []).slice(0, 24)) : null;
     const pressure = pressureFromWeather(et0, maxTemp);
+    setText('#climate-headline', `${region.name}'s water outlook is ${pressure.label.toLowerCase()} this season.`);
     const rainfallStatus = statusFromScore(Number.isFinite(rainfall) ? clamp((rainfall / 35) * 100, 0, 100) : null);
     const soilStatus = statusFromScore(Number.isFinite(soil) ? clamp((soil / 0.35) * 100, 0, 100) : null);
 
@@ -263,8 +256,6 @@
   }
 
   async function initialiseRegionalClimate() {
-    await loadScript('app-core.js');
-    await loadScript('data/dashboard-regions-live.js');
     const regions = window.AQUACROP_LIVE_REGIONS || [];
     const select = $('#region-select');
     if (!select || !regions.length) return;

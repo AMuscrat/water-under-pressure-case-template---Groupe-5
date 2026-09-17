@@ -1,1 +1,0 @@
-{"provider":"Open-Meteo","geocoding":"https://geocoding-api.open-meteo.com/v1/search","weather":"https://api.open-meteo.com/v1/forecast","variables":["et0_fao_evapotranspiration","precipitation_sum","temperature_2m_max"]}
