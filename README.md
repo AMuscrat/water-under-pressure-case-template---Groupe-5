@@ -46,4 +46,6 @@ These questions aren't here to slow you down — they're part of what's being ev
 
 ## Our Approach
 
-*[To be filled in by the team at the end.]*
+AquaCrop Decision Lab is a planning workspace for farmers and cooperative managers in Southern Europe. It helps them decide which crop mix to commit to for the coming season by bringing the region’s water outlook, available irrigation, farm assumptions, and crop trade-offs into one clear decision story.
+
+The tool combines live weather and soil observations from Open-Meteo with live reservoir information from Global Water Watch, alongside Eurostat water-scarcity and irrigation statistics and Eurostat/GISCO geographic boundaries. Irrigation availability and crop recommendations are transparent prototype estimates rather than official allocations or calibrated agronomic or financial advice; the dashboard labels these limits so teams can use the evidence responsibly.
