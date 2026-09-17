@@ -1,14 +1,6 @@
 (() => {
   'use strict';
 
-  const loadScript = (src) => new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = () => reject(new Error(`Failed to load ${src}`));
-    document.head.appendChild(script);
-  });
-
   const GWW_BASE = 'https://api.globalwaterwatch.earth';
   const $ = (selector) => document.querySelector(selector);
   const setText = (selector, value) => { const el = $(selector); if (el) el.textContent = value; };
@@ -264,8 +256,6 @@
   }
 
   async function initialiseRegionalClimate() {
-    await loadScript('app-core.js');
-    await loadScript('data/dashboard-regions-live.js');
     const regions = window.AQUACROP_LIVE_REGIONS || [];
     const select = $('#region-select');
     if (!select || !regions.length) return;

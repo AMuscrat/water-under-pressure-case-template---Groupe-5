@@ -66,16 +66,4 @@ if (sessionStorage.getItem('aquaCropSession') !== 'active') {
     if (span) span.textContent = number;
   });
 
-  const load = (src) => new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = () => reject(new Error(`Failed to load ${src}`));
-    document.head.appendChild(script);
-  });
-
-  (async () => {
-    await load('app-water-api-copy.js');
-    await load('app-water-api.js');
-  })().catch((error) => console.error('Water API loader failed', error));
 }
