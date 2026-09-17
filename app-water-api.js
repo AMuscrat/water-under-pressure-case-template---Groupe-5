@@ -189,6 +189,7 @@
     const maxTemp = maxTemps.length ? Math.max(...maxTemps) : null;
     const soil = weather ? mean((hourly.soil_moisture_0_to_7cm || []).slice(0, 24)) : null;
     const pressure = pressureFromWeather(et0, maxTemp);
+    setText('#climate-headline', `${region.name}'s water outlook is ${pressure.label.toLowerCase()} this season.`);
     const rainfallStatus = statusFromScore(Number.isFinite(rainfall) ? clamp((rainfall / 35) * 100, 0, 100) : null);
     const soilStatus = statusFromScore(Number.isFinite(soil) ? clamp((soil / 0.35) * 100, 0, 100) : null);
 

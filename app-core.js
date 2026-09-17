@@ -57,7 +57,7 @@ function renderClimate(){
   qs('#region-country').textContent=`${region.country.toUpperCase()} · 2026 GROWING SEASON`;
   qs('#region-summary').textContent=region.summary;
   qs('#region-note').textContent=region.note;
-  qs('#climate-headline').textContent=`${region.name}'s water outlook is ${region.overallLabel.toLowerCase()} this season.`;
+  qs('#climate-headline').textContent=region.liveHeadline||`${region.name}'s water outlook is ${region.overallLabel.toLowerCase()} this season.`;
   qs('#current-lens').textContent=`${region.name} · ${region.overallLabel.toLowerCase()}`;
   qs('#overall-status').innerHTML=`<i></i>${region.overallLabel}`;
   setStatus('#overall-status','status-badge',region.overallStatus);
@@ -161,7 +161,7 @@ function applyLiveDecisionRegion(region, metrics={}){
   const status=metrics.irrigationStatus?.css||baseline.overallStatus;
   const stress=status==='red'?5:status==='yellow'?3:2;
   const water=Math.round(Math.max(3000000,Math.min(7000000,3000000+(score/100)*4000000))/100000)*100000;
-  regions[region.id]={...baseline,name:region.name,country:region.country,overallStatus:status,overallLabel:metrics.irrigationStatus?.label||baseline.overallLabel,irrigation:water,stress};
+  regions[region.id]={...baseline,name:region.name,country:region.country,overallStatus:status,overallLabel:metrics.irrigationStatus?.label||baseline.overallLabel,liveHeadline:metrics.pressure?`${region.name}'s water outlook is ${metrics.pressure.label.toLowerCase()} this season.`:null,irrigation:water,stress};
   state.region=region.id;
   state.water=water;
   state.stress=stress;
