@@ -1,1 +1,0 @@
-Live API status: enabled on Vittoria. Provider: Open-Meteo. Geocoding: yes. Weather: yes. Crop baseline: local.
