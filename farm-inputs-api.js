@@ -64,7 +64,7 @@
     extension.id = 'farm-api-extension';
     extension.className = 'farm-api-extension';
     extension.innerHTML = `
-      <div class="farm-api-divider"><span>Farm configuration</span><small>User-entered operating inputs · comparison outputs come from public APIs</small></div>
+      <div class="farm-api-divider"><span>Additional crop comparison (reference only)</span><small>Independent Eurostat + Open-Meteo comparison · does not feed the water budget, crop options, or recommendation below</small></div>
       <div class="farm-api-field-grid">
         <label class="farm-api-field">
           <span>Irrigation efficiency</span>
